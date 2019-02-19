@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{ntheorem}
+\usepackage{enumitem}
+\usepackage{tabulary}
+\usepackage[left=2cm, right=2cm, top=2cm]{geometry}
+
+\newtheorem*{df}{Определение}
+\theoremstyle{break}
+\newtheorem*{example}{Пример:}
+\newtheorem*{theorem}{Теорема}
+
+\begin{document}
+\raggedright
+\begin{sloppypar}
+\section*{Введение}
+
+\begin{df}
+Грамматика $G = <\Sigma>$
+\end{df}
+
+pos = init + delta * 60;
+\begin{enumerate}
+\item Лексический анализ \\
+<id, 1> <=> <id, 2> <+> <id, 2> <*> <const> <;>
+\item Синтаксический анализ (разложение в дерево)
+\item Семантический анализ
+\item Промежуточное представление \\
+$t_1 = delta * 60$ \\
+$t_2 = init + t_1$
+\end{enumerate}
+
+\section*{Иерархия Хомского}
+малые латинские буквы - терминалы \\
+большие - нетерминалы
+
+\begin{tabulary}{\linewidth}{|C|c|C|c|}
+\hline
+Вид грамматики & Правила & Распознаватель & Класс языков \\
+\hline\hline
+Общего вида (неограниченные) & $\alpha \rightarrow \beta$ & МТ & RecEn \\
+\hline
+Контекстно-зависимые(КЗ) & $\alpha A \beta \rightarrow \alpha \gamma \beta$ & Линейный ограниченный автомат (LBA) & КЗЯ \\
+\hline
+Контекстно-свободные(КС) & $A \rightarrow \beta$ & Недетерминированный автомат с магазинной памятью (PDA) & КСЯ \\
+\hline
+Праволинейные & $A \rightarrow \gamma B$ & ДКА & Регулярные \\
+\hline
+\end{tabulary}
+
+\begin{example}
+$S \rightarrow ASB|\lambda$ \\
+$AB \rightarrow BA$ \\
+$A \rightarrow a$ \\
+$B \rightarrow b$
+
+Эквивалентная грамматика: \\
+$S \rightarrow aB|bA$ \\
+$A \rightarrow aS|bAA$ \\
+$B \rightarrow bS|aBB$ \\
+$A \rightarrow a$ \\
+$B \rightarrow b$
+
+Значит исходная грамматика - праволинейная.
+\end{example}
+
+Регулярные $\subset$ КСЯ $\subset$ КЗЯ $\subset$ RecC $\subset$ RecEn
+
+\begin{df}
+	Язык обладает св-м $P$, если $\exists$ грамматика со св-м $P$, его порождающая
+\end{df}
+
+\section*{КСГ и КСЯ}
+\begin{df}
+ Упорядоченное дерево - дерево с заданным линейным порядком со св-ми:
+ \begin{enumerate}
+  \item если $x$ - сын $y$, то $x \geq y$
+  \item если $x$ и $y$ - братья и $x \leq y$, то для всех сыновей $z$ узла $x$: $z \leq y$
+ \end{enumerate}
+\end{df}
+
+\begin{df}
+ Дерево вывода цепочки w в грамматике G - упорядоченное дерево со св-ми:
+ \begin{enumerate}
+  \item Узлы - нетерминалы, корень - акисиома, листья - терминалы или $\lambda$, причем у листьев $\lambda$ нет братьев
+
+  \item Если у узла $x$ сыновья $y_1 \leq ... \leq y_n$, то существует правило вывода $X \rightarrow Y_1...Y_n$
+
+  \item Если все листья дерева имеют метки $a_1 \leq ... \leq a_n$, то $w = a_1...a_n$
+ \end{enumerate}
+\end{df}
+
+\begin{df}
+ Вывод цепочки w ($S \rightarrow \alpha_1 \rightarrow ... \rightarrow \alpha_n = w$) в G представлен деревом T, если существует набор стандартных поддеревьев $T_1 ... T_n$ такой, что упорядоченные листья $T_i$ являются $\alpha_i$
+\end{df}
+
+\begin{df}
+ $T'$ - стандартное поддерево $T$, если:
+ \begin{enumerate}
+  \item Корни $T$ и $T'$ совпадают
+  \item если узел лежит в $T'$, то он либо лист в $T'$, либо все его сыновья лежат в $T'$
+ \end{enumerate}
+\end{df}
+
+Одной цепочке могут соответствовать несколько деревьев.
+
+\begin{df}
+ Грамматика однозначна, если любая цепочка имеет единственное дерево вывода. \\
+ Язык однозначен, если существует порождающая его однозначная грамматика.
+\end{df}
+
+\end{sloppypar}
+\end{document}
+
