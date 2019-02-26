@@ -8,9 +8,10 @@
 \usepackage[left=2cm, right=2cm, top=2cm]{geometry}
 
 \newtheorem*{df}{Определение}
+\newtheorem*{theorem}{Теорема}
 \theoremstyle{break}
 \newtheorem*{example}{Пример:}
-\newtheorem*{theorem}{Теорема}
+\newtheorem*{proof}{Доказательство:}
 
 \begin{document}
 \raggedright
@@ -111,6 +112,95 @@ $B \rightarrow b$
  Язык однозначен, если существует порождающая его однозначная грамматика.
 \end{df}
 
+\section*{Праволинейная грамматика}
+$A \rightarrow \alpha B$
+
+$A \rightarrow \lambda$
+
+\begin{theorem}
+  Праволинейная грамматика порождает регулярный язык.
+\end{theorem}
+\begin{proof}
+  $G = (\Sigma, \Gamma, P, S)$
+  
+  $A = (\Sigma, \Gamma, \delta, S, F)$
+  
+  $F = \{A \in \Gamma | (A \rightarrow \lambda) \in P\}$
+  
+  $\delta(A, a) = B \Leftrightarrow (A \rightarrow aB) \in P$
+\end{proof}
+
+\section*{Преобразования грамматик}
+\begin{enumerate}
+\item Приведенные грамматики.
+  \begin{df}
+    Нетерминал $A \in \Gamma$ - производящий, если из него можно получить терминальную цепочку.
+  \end{df}
+  \begin{df}
+    Нетерминал $A \in \Gamma$ - достижимый, если $S \Rightarrow \alpha A \beta$
+  \end{df}
+  \begin{df}
+    Грамматика - приведенная, если все ее нетерминалы достижимые и проиводящие.
+  \end{df}
+  Алгоритм нахождения $\Gamma_r$ - мн-ва производящих символов:
+  $\Gamma \leftarrow S$
+  
+  $\Gamma_1 = \Gamma \cup \{A|(B \rightarrow \alpha A \beta) \in P, B \in \Gamma\}$
+  
+  Алгоритм нахождения $\Gamma_p$ - мн-ва достижимых символов:
+  $\Gamma = \{A|(A \rightarrow w) \in P\}$
+  $\Gamma_1 = \Gamma \cup \{A|(A \rightarrow \gamma) \in P, \gamma \in (\Sigma \cup \Gamma)\}$
+  
+  \begin{theorem}
+    Для любой КСГ $G$ существует эквивалентная ей приведенная грамматика.
+  \end{theorem}
+  \begin{proof}
+    $G = (\Sigma, \Gamma, P, S)$
+    
+    Находим $\Gamma_p$. Если $S \notin \Gamma_p$, то $G' = (\Sigma, \O, \O, \O)$. Иначе $\overset{\triangle}{\Gamma} = (\Sigma, \Gamma_p, p', S)$
+    
+    $\overset{\triangle}{P} = \{(A \rightarrow \gamma) \in P|A, \gamma \in (\Sigma \cup \Gamma_p)\}$
+    
+    Находим $(\Gamma_p)_r$. Все символы будут достижимые и производящие в $G'$. Порядок важен.
+  \end{proof}
+  \item $\lambda$-сведение грамматики.
+  \begin{df}
+    $A \in \Gamma$ - аннулирующий, если $A \Rightarrow \lambda$
+  \end{df}
+\end{enumerate}
+  Алгоритм нахождения $Ann(G)$ - мн-ва аннулирующих нетерминалов.
+  $Ann(G) = \{A \in \Gamma|(A \rightarrow \lambda) \in P\}$
+  $Ann_1(G) = \{A \in \Gamma|(A \rightarrow \gamma) \in P, \gamma \in (Ann(G))*\}$
+  \begin{df}
+    $\lambda$ - свободная грамматика - грамматика, которая либо не содержит аннулирующих правил ($A \rightarrow \lambda$), либо содержит единственное такое правило из $S$ и $S$ не встречается в правых частях правил вывода.
+  \end{df}
+  
+  \begin{theorem}
+    Любая грамматика эквивалентна некоторой $\lambda$-свободной грамматике
+  \end{theorem}
+  \begin{proof}
+    $G = (\Sigma, \Gamma, P, S)$
+    
+    Если $\lambda \in L(G)$, то $\Gamma' = \Gamma \cup S'$, $P' = P \cup \{(S' \rightarrow \lambda), (S' \rightarrow S)\}$. Иначе не изменяются.
+    
+    Построим $Ann(G)$.    
+    
+    $\beta \prec \gamma$, если $\beta$ - подпослед-ть $\gamma$ и все символы $\gamma \setminus \beta$ - аннулирующие.
+    
+    $P' = \{(A \rightarrow \beta)| (A \rightarrow \gamma) \in P, \beta \prec \gamma, \beta \neq \lambda\}$
+    
+    Проверим, что $L(G) = L(G')$.
+    
+    \begin{enumerate}
+    \item $w \in L(G')$, $S \rightarrow \alpha_1 \rightarrow ... \rightarrow \alpha_n = w$
+    
+      Если $A \rightarrow_{G'} \beta$, то $A \rightarrow_G \gamma$, где $\beta \prec \gamma$
+    
+    \item $w \in L(G)$
+    
+      ...
+    \end{enumerate}
+  \end{proof}
 \end{sloppypar}
 \end{document}
 
