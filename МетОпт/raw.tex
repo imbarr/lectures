@@ -1,0 +1,257 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{ntheorem}
+\usepackage{enumitem}
+\usepackage{tabulary}
+\usepackage[left=2cm, right=2cm, top=2cm]{geometry}
+\usepackage[T1]{fontenc}
+
+\newtheorem*{df}{Определение}
+\newtheorem*{theorem}{Теорема}
+\theoremstyle{break}
+\newtheorem*{example}{Пример:}
+\newtheorem*{proof}{Доказательство:}
+
+\begin{document}
+\raggedright
+\begin{sloppypar}
+  \section*{Введение}
+  Общий вид задачи оптимизации:
+  \begin{enumerate}
+    \item \textbf{Задача оптимального выбора}
+    
+      $\min (\max) f(x), x \in X$ - множество операторов.
+
+      Если $X = R^n$ - задача безусловной минимизации (задача без ограничений)
+    \item \textbf{Общая задача математического программирования}
+
+      $\min f_0(x)$ - функция m переменных. $x \in X_0 \subset R^n$
+      
+      $f_i(x) \leq 0, i \in \overline{1, m_1}$
+      
+      $f_i(x) = 0, i \in \overline{m_1 + 1, m}$
+    \item \textbf{Задача вариационного исчисления}
+    
+      $\min J(x) = \int_{t_0}^T L(t, x(t), x'(t))$
+      
+      $x(t_0) = x_0, x(T) = x_1$
+  \end{enumerate}
+  \subsection*{Задача планирования производства}
+  Переработка $m$ видов ингредиентов (ресурсов)
+
+  $b_i$ – объем $i$-го ресурса
+  
+  $n$ технологий
+  
+  $a_{i, j}$ – затраты $i$–го ресурса при использовании $j$–ой технологии с единичной интенсивностью (например, за единицу времени)
+  
+  $c_j$ – ценность за ед. времени $j$-го способа
+
+  Требуется спланировать производство так, чтобы не выходя за рамки отпущенных ресурсов получить конечную продукцию максимальной суммарной ценности.
+  
+  Ищем интенсивность $j$-ого способа производства $x_j$.
+  
+  Ищем $x = (x1 \dots xn)$ - план производства, который максимизирует суммарную ценность.
+  
+  $\begin{cases}
+    \max \sum_{j = 1}^n c_j x_j \\
+    \sum_{j = 1}^n a_{i, j} x_j \leq b_i, i \in \overline{1, m} \\
+    x_j \geq 0, j \in \overline{1, n}
+  \end{cases}$
+  
+  \subsection*{Задача диеты}
+  $m$ полезных веществ
+  
+  $b_i$ - минимальное количество $i$-го вещества
+  
+  $n$ продуктов питания
+
+  $a_{i, j}$ - количество $i$–го вещества в единице веса $j$-го продукта
+
+  $c_j$ - цена единицы $j$-го продукта
+
+  Требуется найти количество продуктов $x_j$
+  
+  $\begin{cases}
+    \min \sum_{j = 1}^n c_j x_j \\
+    \sum_{j = 1}^n a_{i, j} x_j \geq b_i, i \in \overline{1, m} \\
+    x_j \geq 0, j \in \overline{1, n}
+  \end{cases}$
+  
+  \subsection*{Транспортная задача}
+  $m$ пунктов производства
+  
+  $a_i$ - количество продукта в $i$-м пункте 
+
+  $n$ потребителей
+
+  $b_j$ - потребность $j$-го потребителя
+  
+  $c_{i, j}$ - стоимость перевозки из пункта $i$ в пункт $j$ единицы продукта
+  
+  Требуется организовать перевозки так, чтобы:
+  \begin{enumerate}
+    \item из каждого пункта производства вывезти весь имеющийся там продукт 
+    \item полностью насытить потребности каждого потребителя
+    \item суммарные транспортные затраты были минимальны
+  \end{enumerate}
+  
+  Определить объемы перевозок $x_{i, j}$
+  
+  $\begin{cases}
+    \min \sum_{i = 1}^m \sum_{j = 1}^n c_{i, j} x_{i, j} \\
+    \sum_{j = 1}^n x_{i, j} = a_i, i \in \overline{1, m} \\
+    \sum_{i = 1}^m x_{i, j} = b_j, j \in \overline{1, n} \\
+    x_{i, j} \geq 0, \forall i, j
+  \end{cases}$
+  
+  Все три задачи оптимизационные, во всех надо найти оптимум линейной функции. Существуют ограничения в виде неравенств и равенств. В ограничениях левая часть – линейная функция. Есть условия неотрицательных переменных ($x_{i, j} > 0$)
+  
+  Примеры задач линейного программирования вкладываются в общую схему задач математического программирования.
+  
+  \section*{Общая задача линейного программирования}
+  $\begin{cases}
+    \min(\max) \sum_{j = 1}^n c_j x_j \\
+    \sum_{j = 1}^n a_{i, j} x_j \{=, \leq, \geq\} b_i, i \in \overline{1, m} \\
+    x_j \geq 0, j \in \overline{1, m}
+  \end{cases}$
+  
+  \textbf{Целевая функция} - функция, которая минимизируется или максимизируется.
+  
+  \textbf{Вектор цели} $c = (c_1 \dots с_n)$ определяет целевую функцию.
+  
+  \textbf{Ограничения} могут быть равенствами или неравенствами.
+  
+  
+  \textbf{Матрица задачи (условий)} $A = (a_{i, j})_{m \times n}$.
+  	
+  \textbf{Вектор правых частей (ограничений)} $B = (b_1 \dots b_m)$.
+  
+  \textbf{Условие неотрицательности переменных} $x_j >= 0$.
+
+  \textbf{План задачи} $x = (x_1 \dots x_n)$ - допустимый, если удовлетворяет всем ограничениям.
+  
+  \textbf{Допустимое множество} $X$ – множество всех допустимых планов задачи.
+
+  $\overline{x} = (\overline{x_1} \dots \overline{x_n})$ - \textbf{Оптимальный план} , если $\forall x \in X: \sum_{j = 1}^n c_j \overline{x_j} \leq \sum_{j = 1}^n c_j x_j$
+
+$\sum_{j = 1}^n c_j \overline{x_j}$ - \textbf{Оптимальное значение задачи}
+
+\textbf{Решение задачи линейного программирования} - найти хотя бы один оптимальный план и вычислить оптимальное значение.
+
+\section*{Частные формы задачи ЛП}
+\begin{enumerate}
+  \item Планирования производства
+  
+    $\begin{cases}
+      \max \sum_{j = 1}^n c_j x_j \\
+      \sum_{j = 1}^n a_{i, j} x_j = b_i, \forall i \\
+      x_j \geq 0, \forall j
+    \end{cases}$
+  \item Каноническая задача
+  
+    $\begin{cases}
+      \min \sum_{j = 1}^n c_j x_j \\
+      \sum_{j = 1}^n a_{i, j} x_j = b_i, \forall i \\
+      x_j \geq 0, \forall j
+    \end{cases}$
+  \item Основная задача
+    
+    $\begin{cases}
+      \min \sum_{j = 1}^n c_j x_j \\
+      \sum_{j = 1}^n a_{i, j} x_j \leq b_i, \forall i \\
+    \end{cases}$
+\end{enumerate}
+
+Существуют правила перехода от одной задачи к другой (формы эквивалентны).
+\begin{enumerate}
+  \item важна с точки зрения приложений
+  \item решается алгебраическими методами, приводим задачи к этому виду для решения
+  \item важна при рассмотрении теоретических вопросов
+\end{enumerate}
+
+\begin{itemize}
+\item Матричная запись:
+
+ $X, C, B$ - вектор-столбцы
+
+$\begin{cases}
+  \max C^T X \\
+  AX \leq B \\
+  X \geq 0
+\end{cases}$
+
+\item Векторная запись:
+
+$A = \begin{bmatrix}
+  a_1 \\ \vdots \\ a_m
+\end{bmatrix}$ - набор векторов (строк) 
+
+$\begin{cases}
+  \max (C, X) \\
+  (a_i, X) \leq b_i, \forall i \\
+  X \geq 0
+\end{cases}$
+
+\item Запись через столбцы:
+
+$A = (A_1 \dots A_n)$ - набор столбцов
+
+$\begin{cases}
+  \max (C, X) \\
+  \sum_{j = 1}^n A_j x_j \leq B \\
+  X \geq 0
+\end{cases}$
+\end{itemize}
+
+\subsection*{Правила перехода}
+\begin{enumerate}
+  \item $\max\limits_{x \in S} f(x) = - \min\limits_{x \in S} (- f(x))$
+  
+    $x^*$ - точка максимума $f(x)$
+  
+    $\forall x \in S: f(x^*) \geq f(x)$
+  
+    $\forall x \in S: - f(x^*) \leq - f(x)$
+  
+    $x^*$ - точка минимума $- f(x)$
+  
+  \item $f_i(x) \geq 0 \sim - f_i(x) \leq 0$
+  
+  \item $(a_i, x) \leq b_i$
+  
+    Добавим переменную $x_{n + i} = b_i - (a_i, x) \geq 0$
+    
+    $(a_i, x) \leq b_i \sim
+    \begin{cases}
+      (a_i, x) + x_{n + i} = b_i \\
+      x_{n + i} \geq 0    
+    \end{cases}$
+    
+  \item $(a_i, x) = b_i \sim
+    \begin{cases}
+      (a_i, x) \leq b_i \\
+      - (a_i, x) \leq b_i
+    \end{cases}$
+    
+  \item $a_{i, 1}x_1 + \dots + a_{i, n}x_n = b_i$
+  
+    Пусть $a_{i, 1} \neq 0$
+    
+    $x_1 = \frac{1}{a_{i, 1}}(b_i - a_{i, 2}x_2 - \dots - a_{i, n}x_n)$
+    
+    $x_i \geq 0 \Rightarrow a_{i, 2}x_2 + \dots + a_{i, n}x_n \leq b_i$
+    
+    Применим метод Жордана-Гаусса. Количество ограничений сократится.
+    
+  \item $x_j \geq 0 \sim - x_j \leq 0 \sim (a_j, x) \leq b_j, b_j = 0, a_j = -1$
+  
+  \item $x_j$ - свободная переменная.
+  
+    Замена $x_j = x'_j - x''_j, x'_j, x''_j \geq 0$
+\end{enumerate}
+
+\end{sloppypar}
+\end{document}
