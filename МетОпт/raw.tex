@@ -4,15 +4,26 @@
 \usepackage{amsmath}
 \usepackage{ntheorem}
 \usepackage{enumitem}
+\usepackage{changepage}
 \usepackage{tabulary}
 \usepackage[left=2cm, right=2cm, top=2cm]{geometry}
 \usepackage[T1]{fontenc}
 
-\newtheorem*{df}{Определение}
-\newtheorem*{theorem}{Теорема}
-\theoremstyle{break}
-\newtheorem*{example}{Пример:}
-\newtheorem*{proof}{Доказательство:}
+\newenvironment{df}[1]{
+  \underline{\textbf{Опр.}}\ \ \textbf{#1}
+  
+  \begin{adjustwidth}{1em}{}
+}{
+  \end{adjustwidth}
+}
+
+\newenvironment{statement}[1]{
+  \underline{\textbf{Утв.}}\ \ #1
+    
+  \begin{adjustwidth}{1em}{}
+}{
+  \end{adjustwidth}
+}
 
 \begin{document}
 \raggedright
@@ -252,6 +263,86 @@ $\begin{cases}
   
     Замена $x_j = x'_j - x''_j, x'_j, x''_j \geq 0$
 \end{enumerate}
+
+\section*{Геометрическая задача ЛП на плоскости и графический метод решения}
+$z = c_1 x_1 + c_2 x_2 \rightarrow \max$
+
+$\begin{cases}
+  a_{1, 1}x_1 + a_{1, 2}x_2 \leq b_1 \\
+  \vdots \\
+  a_{m, 1}x_1 + a_{m, 2}x_2 \leq b_m
+\end{cases}$
+
+$x_i \geq 0 \forall i$
+
+\begin{enumerate}
+  \item Построение допустимого множества $X$.
+  
+  $a_{i, 1}x_1 + a_{i, 2}x_2 \leq b_i$
+  
+  Множество точек, удовлетворяющих неравенству - полуплоскость. Построим прямую $a_{i, 1}x_1 + a_{i, 2}x_2 = b_i$. Вектор нормали $(a_{i, 1}, a_{i, 2})$ направлен в искомую полуплоскость.
+  
+  Также учитываем условия неотрицательности переменных.
+  
+  Множество $X$ - пересечение всех полученных полуплоскостей. Возможны три случая:
+  \begin{enumerate}
+    \item $X$ - многоугольник
+    \item $X$ - неограниченное многоугольное множество
+    \item $X$ - пустое множество (решений нет)
+  \end{enumerate}
+
+  \item Поиск $\max z = \max (c, x)$ с помощью линий уровня.
+  
+  $(c, x) = z_0$ - начальная прямая. Как правило, $z_0 = 0$.
+  
+  $c$ - её вектор нормали.
+  
+  Возьмем $z_1 > z_0$. Прямая $(c, x) = z_1$ параллельно сдвинута в сторону вектора нормали (в задаче на $\min$ сдвигаем в обратную сторону).
+  
+  Сдвигаем прямую до крайнего положения $(c, x) = f^*$. Множество оптимальных планов $x^*$ - пересечение $X$ и прямой $(c, x) = f^*$.
+  
+  Если $X$ - неограниченное множество, то возможна (зависит от направления вектора $c$) ситуация, когда $f^* = \infty$.
+\end{enumerate}
+
+\section*{Геометрические свойства задачи ЛП в пространстве $R^n$}
+\begin{df}{Выпуклая комбинация}
+
+  $x - x_1$ - часть вектора $x_2 - x_1$.
+  
+  $x - x_1 = \alpha(x_2 - x_1)$.
+  
+  Значение $\alpha$ задает положение точки $x$ на отрезке $[x_1, x_2]$.
+  
+  $x = (1 - \alpha)x_1 + \alpha x_2$ - уравнение отрезка $[x_1, x_2]$ при $0 \leq \alpha \leq 1$ (выпуклая комбинация точек $x_1$, $x_2$).
+\end{df}
+
+\begin{df}{Выпуклое множество}
+  $S$ - выпуклое, если любой отрезок с концами в $S$ целиком содержится в $S$.
+  
+  $\forall x_1, x_2 \in S: [x_1, x_2] \subset S$
+  
+  Или:
+  
+  $\forall x_1, x_2 \in S, \alpha \in [0, 1]: x = (1 - \alpha)x_1 + \alpha x_2 \in S$
+\end{df}
+
+\begin{statement}{
+  Непустое пересечение выпуклых множеств - выпуклое.
+}
+  $S = S_1 \cap S_2$
+
+  Возьмем $x_1, x_2 \in S$
+  
+  $x_1, x_2 \in S_i \Rightarrow [x_1, x_2] \subset S_i \Rightarrow [x_1, x_2] \subset S_1 \cap S_2$
+\end{statement}
+
+\begin{df}{Гиперплоскость}
+  $x \in R^m$
+
+  $H = {x|(a, x) = b}$ - гиперплоскость
+  
+  $a$ - нормаль гиперплоскости
+\end{df}
 
 \end{sloppypar}
 \end{document}
