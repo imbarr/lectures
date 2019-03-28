@@ -9,6 +9,10 @@
 \usepackage[left=2cm, right=2cm, top=2cm]{geometry}
 \usepackage[T1]{fontenc}
 
+\newenvironment{inlinedf}[1]{
+  \underline{\textbf{Опр.}}\ \ \textbf{#1} - }{
+}
+
 \newenvironment{df}[1]{
   \underline{\textbf{Опр.}}\ \ \textbf{#1}
   
@@ -17,8 +21,34 @@
   \end{adjustwidth}
 }
 
-\newenvironment{statement}[1]{
-  \underline{\textbf{Утв.}}\ \ #1
+\newenvironment{proof}{
+  \textit{Доказательство:}
+    
+  \begin{adjustwidth}{1em}{}
+}{
+  \end{adjustwidth}
+}
+
+\newenvironment{statement}{
+  \underline{\textbf{Утв.}}\ \ }{
+  
+}
+
+\newenvironment{theorem}{
+  \underline{\textbf{Теорема}}\ \ }{
+  
+}
+
+\newenvironment{mlstatement}{
+  \underline{\textbf{Утв.}}\ \ 
+  
+  \begin{adjustwidth}{1em}{}
+}{
+  \end{adjustwidth}
+}
+
+\newenvironment{example}{
+  \textit{Пример:}
     
   \begin{adjustwidth}{1em}{}
 }{
@@ -326,23 +356,204 @@ $x_i \geq 0 \forall i$
   $\forall x_1, x_2 \in S, \alpha \in [0, 1]: x = (1 - \alpha)x_1 + \alpha x_2 \in S$
 \end{df}
 
-\begin{statement}{
+\begin{statement}
   Непустое пересечение выпуклых множеств - выпуклое.
-}
+\end{statement}
+\begin{proof}
   $S = S_1 \cap S_2$
 
   Возьмем $x_1, x_2 \in S$
   
   $x_1, x_2 \in S_i \Rightarrow [x_1, x_2] \subset S_i \Rightarrow [x_1, x_2] \subset S_1 \cap S_2$
-\end{statement}
+\end{proof}
 
 \begin{df}{Гиперплоскость}
   $x \in R^m$
 
-  $H = {x|(a, x) = b}$ - гиперплоскость
+  $H = \{x|(a, x) = b\}$ - гиперплоскость
   
   $a$ - нормаль гиперплоскости
 \end{df}
+
+\begin{statement}
+  Гиперплоскость - выпуклое множество.
+\end{statement}
+\begin{proof}
+  $x_1, x_2 \in H, \alpha \in [0, 1]$
+  
+  $x = (1 - \alpha)x_1 + \alpha x_2$
+  
+  Скалярное произведение линейно $\Rightarrow$
+  
+  $(a, x) = (1 - \alpha)(a, x_1) + \alpha (a, x_2) = (1 - \alpha) b + \alpha b = b$
+  
+  $\Rightarrow x \in H$
+\end{proof}
+
+$H$ делит пространство на две полуплоскости:
+
+$H^+ = \{x|(a, x) \geq b\}$
+
+$H^- = \{x|(a, x) < b\}$
+
+\begin{statement}
+  $H^+$ и $H^-$ - выпуклые множества.
+\end{statement}
+\begin{proof}
+  $x_1, x_2 \in H^+, \alpha \in [0, 1]$
+  
+  $x = (1 - \alpha)x_1 + \alpha x_2$
+  
+  $(a, x) = (1 - \alpha)(a, x_1) + \alpha (a, x_2) = (1 - \alpha)(b + \theta_1) + \alpha (b + \theta_2) = b + (1 - \alpha)\theta_1  + \alpha\theta_2  \geq b$
+  
+  где $\theta_1, \theta_2 \geq 0$
+  
+  Для $H^-$ аналогично.
+\end{proof}
+
+$H^-_i = \{x|(a_i, x) \leq b_i\}$
+  
+$X = \bigcap\limits_{i = 1}^m H^-_i$ - допустимое множество основной задачи (многогранник решений)
+
+\begin{statement}
+  $X$ - выпуклое множество.
+\end{statement}
+
+\begin{df}{Предельная точка}
+  $\overline{x} \in X$ - предельная точка, если:
+  
+  $\exists \{x_k\} \subset X: \forall k \in N: x_k \neq \overline{x}$ и $x_k \xrightarrow[k \to \infty]{} \overline{x}$
+\end{df}
+
+Скалярное произведение непрерывно $\Rightarrow (a_i, x_k) \xrightarrow[k \to \infty]{} (a_i, \overline{x}) \leq b_i$
+
+Значит $X$ - замкнутое множество.
+
+\begin{df}{k-грань}
+  $x$ - k-грань, если:
+
+  $\exists \{i_1 \dots i_k\} \subset \overline{1, n}$, такое, что:
+  
+  \begin{enumerate}
+    \item $a_{i_l}$ - линейно независимы
+    \item $\forall l \in \overline{1, k}: (a_{i_l}, x) = b_{i_l}$
+    \item $\forall i \in \overline{1, n}: (a_i, x) \leq b_i$
+  \end{enumerate}
+\end{df}
+
+\begin{inlinedf}{Вершина}
+  $n$-грань
+\end{inlinedf}
+
+\begin{mlstatement}
+  Пусть $X \neq \O$, $r = r(A)$. Тогда $\forall k \in \overline{1, r}: \exists k$-грань
+  
+  \textit{(Без доказательства)}
+\end{mlstatement}
+
+%TODO непонятное утверждение
+
+\begin{df}{Выпуклая комбинация}
+  Выпуклая комбинация точек $x_1 \dots x_k$ - $\sum_{i = 1}^k \alpha_i x_i$, где:
+  
+  $\forall i: \alpha_i = 0$
+  
+  $\sum_{i = 1}^k \alpha_i = 1$
+\end{df}
+
+\begin{statement}
+  Выпуклое множество содержит все выпуклые комбинации своих точек.
+\end{statement}
+\begin{proof}
+  Пусть $S$ - выпуклое множество, $x_1 \dots x_m \in S$
+  
+  $x = \sum_{i = 1}^m \alpha_i x_i$
+  
+  Докажем, что $x \in S$ индукцией по числу точек $m$:
+  
+  \textit{Б.И.} $k = 2$
+  
+  Множество значений $x$ - отрезок. Из определения выпуклого множества $x \in S$.
+  
+  \textit{Ш.И.}
+  
+  Рассмотрим три случая:
+  \begin{enumerate}
+    \item $\alpha_m = 0$
+    
+    Количество слагаемых - $m - 1$. Выполнено П.И.
+    \item $\alpha_m = 1$
+    
+    $\sum_{i = 1}^m \alpha_i = 1 \Rightarrow$ одно слагаемое, очевидно.
+    \item $0 < \alpha_m < 1$
+    
+    $x = (1 - \alpha_m) \sum_{i = 1}^{m - 1} \frac{\alpha_i}{1 - \alpha_m} x_i + \alpha_m x_m = (1 - \alpha_m)y + \alpha_m x_m$
+    
+    $\sum_{i = 1}^{m - 1} \alpha_i = 1 - \alpha_m \Rightarrow \sum_{i = 1}^{m - 1} \frac{\alpha_i}{1 - \alpha_m} = 1 \Rightarrow y$ - выпуклая комбинация $m - 1$ точек и по П.И. $y \in S$
+    
+    $\Rightarrow x$ - выпуклая комбинация 2-х точек из $S \Rightarrow x \in S$
+  \end{enumerate}
+\end{proof}
+
+\begin{df}{Выпуклая оболочка}
+  Выпуклая оболочка множества $M$ - множество всех выпуклых комбинаций точек из $M$.
+\end{df}
+
+Свойства $coM$:
+\begin{enumerate}
+  \item $coM$ - выпуклое множество.
+  
+    $x_1, x_2 \in coM$
+    
+    $x_1 = \sum_{i = 1}^k \alpha_i x_i$
+    
+    $x_2 = \sum_{j = 1}^m \beta_j x_j^*$
+    
+    $x = \lambda x_1 + (1 - \lambda)x_2$
+    
+    Легко проверить, что $x$ - выпуклая комбинация $x_1 \dots x_k, x_1^* \dots x_m^*$.
+  \item $M \subset coM$
+  
+  Любая точка множества - выпуклая комбинация из одного слагаемого.
+  \item $\forall S$ - выпуклое множество: $M \subset S \Rightarrow coM \subset S$
+  
+    $S$ - выпуклое, значит, оно содержит все выпуклые комбинации своих точек.
+    
+    $M \subset S \Rightarrow S$ содержит все выпуклые комбинации точек из $M \Rightarrow coM \subset S$
+\end{enumerate}
+
+\begin{example}
+  Треугольник - выпуклая оболочка его трех вершин.
+  
+  \begin{proof}
+    $x_1, x_2, x_3$ - вершины.
+    
+    $y = \alpha x_1 + (1 - \alpha)x_2$ - отрезок $[x_1, x_2]$
+    
+    $x = \beta y + (1 - \beta)x_3$ - треугольник
+    
+    $x = \beta \alpha x_1 + \beta(1 - \alpha)x_2 + (1 - \beta)x_3$
+    
+    Сумма коэффициентов равна единице $\Rightarrow x$ - выпуклая комбинация.
+  \end{proof}
+  
+  Многоугольник - выпуклая оболочка своих вершин.
+\end{example}
+
+\begin{df}{Крайняя точка}
+  $\overline{x} \in M$ - крайняя (угловая) точка, если ее нельзя представить в виде нетривиальной ($\alpha > 0$) выпуклой комбинации двух различных точек из $M$.
+\end{df}
+
+\begin{example}
+  Крайние точки многоугольника - его вершины. У сферы все точки являются крайними.
+\end{example}
+
+\begin{theorem}
+  Любое непустое выпуклое замкнутое ограниченное множество из $R^n$ можно представить как выпуклую оболочку своих крайних точек.
+\end{theorem}
+%TODO доказательство теоремы
+
+
 
 \end{sloppypar}
 \end{document}
