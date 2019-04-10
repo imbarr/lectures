@@ -659,5 +659,76 @@ $X$ - выпуклое и замкнутое.
   $(c, p) = \sum_{i = 1}^k \alpha_i (c, p_i) = \sum_{i = 1}^k \alpha_i f^* = f^*$
 \end{proof}
 
+\subsection*{Опорный план}
+Определен для канонической задачи ЛП:
+
+$\begin{cases}
+  \min (c, x) \\
+  \sum_{j = 1}^n A_j x_j = B \\
+  x \geq 0
+\end{cases}$
+
+\begin{df}{Опорный план}
+  План задачи $\overline{x} = (\overline{x_1} \dots \overline{x_n})$ является опорным, если столбцы $\{A_j | \overline{x_j} > 0\}$ линейно независимы.
+  
+  Если столбцов столько же, сколько и ограничений, то план - невырожденный.
+\end{df}
+
+\begin{statement}
+  $\overline{x}$ - опорный план $\Longleftrightarrow \overline{x}$ - крайняя точка. 
+\end{statement}
+\begin{proof}
+\underline{Необходимость}
+
+Пусть $\overline{x}$ - опорный план.
+
+Предположим от противного: $\overline{x}$ - не крайняя точка.
+
+Тогда $\exists \alpha_1, \alpha_2 > 0: \exists x', x'' \in X, x' \neq x'': \overline{x} = \alpha_1 x' + \alpha_2 x'', \alpha_1 + \alpha_2 = 1$
+
+$x'$ и $x''$ удовлетворяют ограничениям задачи ЛП:
+
+$\begin{cases}
+  \sum_{j = 1}^n A_j x'_j = B \\
+  \sum_{j = 1}^n A_j x''_j = B
+\end{cases}$
+
+Пусть $I = \{j | \overline{x_j} > 0\}$ - множество индексов. Тогда $\forall j \notin I: x'_j = x''_j = 0$. Вычитая одно равенство из другого получаем:
+
+$\sum_{j \in I} A_j (x'_j - x''_j) = 0$
+
+$A_j$ - линейно независимы, значит $\forall j \in I: x'_j = x''_j$. При этом $\forall j \notin I: x'_j = x''_j = 0$. Отсюда, $x' = x''$, противоречие.\\~\\
+
+\underline{Достаточность}
+
+Пусть $\overline{x}$ - крайняя точка, $I = \{j | \overline{x_j} > 0\}$ - множество индексов при ненулевых компонентах.
+
+$\overline{x}$ удовлетворяет ограничениям задачи ЛП: $\sum_{j \in I} A_j \overline{x_j} = B$
+
+Предположим от противного: $\overline{x}$ - не опорный план. Тогда $\{A_j\}_{j \in I}$ - линейно зависимы, то есть, существует нетривиальная линейная комбинация $d_1 \dots d_k$, такая, что:
+
+$\sum_{j \in I} d_j A_j = 0$
+
+Возьмем $\epsilon > 0$. Умножим обе части равенства на $\pm \epsilon$ и сложим с ограничением задачи ЛП. Получим:
+
+$\sum_{j \in I} A_j (\overline{x_j} \pm \epsilon d_j) = B$
+
+Выберем $\epsilon$ таким, что $\forall j \in I: x_j \pm \epsilon d_j \geq 0$
+
+Пусть вектора $x', x''$ имеют координаты:
+
+$\forall j \in I: \begin{cases}
+  x'_j = \overline{x_j} - \epsilon d_j \\
+  x''_j = \overline{x_j} + \epsilon d_j
+\end{cases}$
+
+$\forall j \notin I: x'_j = x''_j = 0$
+
+$x'$ и $x''$ имеют неотрицательные координаты и удовлетворяют ограничениям задачи лп, значит, являются планами задачи. Кроме того, $x' \neq x''$ и $\overline{x} = \frac{1}{2}x' + \frac{1}{2}x''$. Следовательно, $\overline{x}$ - выпуклая комбинация различных точек из $X$, а значит, не является крайней, противоречие.
+\end{proof}
+
+\section*{Симплекс метод}
+
+
 \end{sloppypar}
 \end{document}
